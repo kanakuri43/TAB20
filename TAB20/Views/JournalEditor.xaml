@@ -36,27 +36,26 @@
             <StackPanel Grid.Row="1"
                  Margin="0,0,0,2"
                  Orientation="Horizontal">
-                <TextBlock Text="Slip No"
+                <TextBlock Text="ID"
                         VerticalAlignment="Center"
                         Width="100"/>
-                <TextBox Text="{Binding SlipNo, StringFormat={}{0:#}}" 
+                <TextBox Text="{Binding Id, StringFormat={}{0:#}}" 
                   Width="120"
-                  x:Name="SlipNoTextBox">
+                  x:Name="IdTextBox">
                     <TextBox.InputBindings>
                         <KeyBinding Gesture="Enter" 
-                             Command="{Binding SlipSearchCommand}" 
-                             CommandParameter="{Binding ElementName=SlipNoTextBox}"/>
+                             Command="{Binding JournalSearchCommand}" 
+                             CommandParameter="{Binding ElementName=IdTextBox}"/>
                     </TextBox.InputBindings>
                 </TextBox>
-                <Label Content="{Binding SlipNoMessage}"/>
             </StackPanel>
             <StackPanel Grid.Row="2"
                  Margin="0,0,0,2"
                  Orientation="Horizontal">
-                <TextBlock Text="Slip Date" 
+                <TextBlock Text="Date" 
                         VerticalAlignment="Center"
                         Width="100"/>
-                <DatePicker SelectedDate="{Binding SlipDate}"
+                <DatePicker SelectedDate="{Binding JournalDate}"
                      Width="120"
                      x:Name="SlipDatePicker"/>
             </StackPanel>
@@ -88,7 +87,7 @@
                    SelectedValuePath="SelectedValue"
                    DisplayMemberPath="DisplayMember"
                    ItemsSource="{Binding Accounts}" 
-                   SelectedValue="{Binding DebitAccountCode}"/>
+                   SelectedValue="{Binding DebitAccountId}"/>
             </StackPanel>
             <StackPanel Grid.Row="5"
                  Margin="0,0,0,2"
@@ -100,7 +99,7 @@
                    SelectedValuePath="SelectedValue"
                    DisplayMemberPath="DisplayMember"
                    ItemsSource="{Binding Accounts}" 
-                   SelectedValue="{Binding CreditAccountCode}"/>
+                   SelectedValue="{Binding CreditAccountId}"/>
             </StackPanel>
             <StackPanel Grid.Row="6"
                      Margin="0,0,0,2"
