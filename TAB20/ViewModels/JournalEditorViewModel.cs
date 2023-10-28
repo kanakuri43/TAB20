@@ -2,7 +2,9 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using TAB20.Models;
 
 namespace TAB20.ViewModels
 {
@@ -19,6 +21,7 @@ namespace TAB20.ViewModels
         private int[] _rates = new int[] { 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 };
         private int _rate;
         private int _balanceAccountCode;
+        private ObservableCollection<Account> _accounts;
 
         public int Id
         {
@@ -75,10 +78,20 @@ namespace TAB20.ViewModels
             get { return _balanceAccountCode; }
             set { SetProperty(ref _balanceAccountCode, value); }
         }
+        public ObservableCollection<Account> Accounts
+        {
+            get { return _accounts; }
+            set { SetProperty(ref _accounts, value); }
+        }
 
         public JournalEditorViewModel()
         {
             InitializeScreen();
+            using (var context = new AppDbContext())
+            {
+                Accounts = new ObservableCollection<Account>(context.Accounts.ToList());
+
+            }
         }
         
         private void InitializeScreen()

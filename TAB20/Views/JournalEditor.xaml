@@ -84,8 +84,8 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
-                   SelectedValuePath="SelectedValue"
-                   DisplayMemberPath="DisplayMember"
+                   SelectedValuePath="Id"
+                   DisplayMemberPath="AccountName"
                    ItemsSource="{Binding Accounts}" 
                    SelectedValue="{Binding DebitAccountId}"/>
             </StackPanel>
@@ -96,8 +96,8 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
-                   SelectedValuePath="SelectedValue"
-                   DisplayMemberPath="DisplayMember"
+                   SelectedValuePath="Id"
+                   DisplayMemberPath="AccountName"
                    ItemsSource="{Binding Accounts}" 
                    SelectedValue="{Binding CreditAccountId}"/>
             </StackPanel>
@@ -128,8 +128,8 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
-                       SelectedValuePath="SelectedValue"
-                       DisplayMemberPath="DisplayMember"
+                       SelectedValuePath="Id"
+                       DisplayMemberPath="AccountName"
                        ItemsSource="{Binding Accounts}" 
                        SelectedValue="{Binding BalanceAccountCode}"/>
             </StackPanel>
