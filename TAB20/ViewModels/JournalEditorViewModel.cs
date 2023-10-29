@@ -87,13 +87,18 @@ namespace TAB20.ViewModels
         public JournalEditorViewModel()
         {
             InitializeScreen();
+
+            RegisterCommand = new DelegateCommand(RegisterCommandExecute);
+
             using (var context = new AppDbContext())
             {
                 Accounts = new ObservableCollection<Account>(context.Accounts.ToList());
 
             }
         }
-        
+
+        public DelegateCommand RegisterCommand { get; }
+
         private void InitializeScreen()
         {
             Id = 0;
@@ -105,5 +110,11 @@ namespace TAB20.ViewModels
             Rate = 0;
 
         }
+
+        private void RegisterCommandExecute()
+        {
+
+        }
+
     }
 }
