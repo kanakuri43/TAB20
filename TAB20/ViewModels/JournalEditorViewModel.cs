@@ -17,9 +17,9 @@ namespace TAB20.ViewModels
         private DateTime _journalDate;
         private string _description;
         private int _debitAccountId;
-        private string _debitAccountName;
+        //private string _debitAccountName;
         private int _creditAccountId;
-        private string _creditAccountName;
+        //private string _creditAccountName;
         private decimal _price;
         private int[] _rates = new int[] { 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 };
         private int _rate;
@@ -46,21 +46,21 @@ namespace TAB20.ViewModels
             get { return _debitAccountId; }
             set { SetProperty(ref _debitAccountId, value); }
         }
-        public string DebitAccountName
-        {
-            get { return _debitAccountName; }
-            set { SetProperty(ref _debitAccountName, value); }
-        }
+        //public string DebitAccountName
+        //{
+        //    get { return _debitAccountName; }
+        //    set { SetProperty(ref _debitAccountName, value); }
+        //}
         public int CreditAccountId
         {
             get { return _creditAccountId; }
             set { SetProperty(ref _creditAccountId, value); }
         }
-        public string CreditAccountName
-        {
-            get { return _creditAccountName; }
-            set { SetProperty(ref _creditAccountName, value); }
-        }
+        //public string CreditAccountName
+        //{
+        //    get { return _creditAccountName; }
+        //    set { SetProperty(ref _creditAccountName, value); }
+        //}
         public decimal Price
         {
             get { return _price; }
@@ -132,16 +132,29 @@ namespace TAB20.ViewModels
         {
             using (var context = new AppDbContext())
             {
-                if(this.Id == 0)
+                string debitAccountName = "";
+                string creditAccountName = "";
+                var dn = context.Accounts.Find(this.DebitAccountId);
+                if (dn != null)
+                {
+                    debitAccountName = dn.AccountName;
+                }
+                var cn = context.Accounts.Find(this.CreditAccountId);
+                if (cn != null)
+                {
+                    creditAccountName = cn.AccountName;
+                }
+
+                if (this.Id == 0)
                 {
                     var accountJournal = new AccountJournal
                     {
                         JournalDate = this.JournalDate,
                         Description = this.Description,
                         DebitAccountId = this.DebitAccountId,
-                        DebitAccountName = this.DebitAccountName,
+                        DebitAccountName = debitAccountName,
                         CreditAccountId = this.CreditAccountId,
-                        CreditAccountName = this.CreditAccountName,
+                        CreditAccountName = creditAccountName,
                         Price = this.Price
                     };
 
@@ -153,12 +166,13 @@ namespace TAB20.ViewModels
                     var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == this.Id);
                     if (accountJournal != null)
                     {
+
                         accountJournal.JournalDate = this.JournalDate;
                         accountJournal.Description = this.Description;
                         accountJournal.DebitAccountId = this.DebitAccountId;
-                        accountJournal.DebitAccountName = this.DebitAccountName;
+                        accountJournal.DebitAccountName = debitAccountName;
                         accountJournal.CreditAccountId = this.CreditAccountId;
-                        accountJournal.CreditAccountName = this.CreditAccountName;
+                        accountJournal.CreditAccountName = creditAccountName;
                         accountJournal.Price = this.Price;
 
                         context.SaveChanges();
@@ -180,9 +194,9 @@ namespace TAB20.ViewModels
                     this.JournalDate = j.JournalDate;
                     this.Description = j.Description;
                     this.DebitAccountId = j.DebitAccountId;
-                    this.DebitAccountName = j.DebitAccountName;
+                    //this.DebitAccountName = j.DebitAccountName;
                     this.CreditAccountId = j.CreditAccountId;
-                    this.CreditAccountName = j.CreditAccountName;
+                    //this.CreditAccountName = j.CreditAccountName;
                     this.Price = j.Price;
 
                 }
