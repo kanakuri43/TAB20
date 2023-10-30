@@ -11,6 +11,7 @@ namespace TAB20.Models
     public class AppDbContext : DbContext
     {
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountJournal> AccountJournals { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

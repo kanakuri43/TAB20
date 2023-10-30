@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace TAB20.Models
 {
+    [Table("accounts")]
     public class Account
     {
         public int Id {get; set; }

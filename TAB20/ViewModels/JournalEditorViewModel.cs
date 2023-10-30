@@ -113,6 +113,21 @@ namespace TAB20.ViewModels
 
         private void RegisterCommandExecute()
         {
+            using (var context = new AppDbContext())
+            {
+                var accountJournal = new AccountJournal 
+                { 
+                    JournalDate = new DateTime(2023,12,31), 
+                    Description = "ABC",
+                    DebitAccountId = 123,
+                    DebitAccountName = "XXXX",
+                    CreditAccountId = 456,
+                    CreditAccountName = "YYYY",
+                    Price = 12345M 
+                };
+                context.AccountJournals.Add(accountJournal);
+                context.SaveChanges();
+            }
 
         }
 
