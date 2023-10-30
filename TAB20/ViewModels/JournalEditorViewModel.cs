@@ -136,13 +136,13 @@ namespace TAB20.ViewModels
                 {
                     var accountJournal = new AccountJournal
                     {
-                        JournalDate = new DateTime(2023, 12, 31),
-                        Description = "ABC",
-                        DebitAccountId = 123,
-                        DebitAccountName = "XXXX",
-                        CreditAccountId = 456,
-                        CreditAccountName = "YYYY",
-                        Price = 12345M
+                        JournalDate = this.JournalDate,
+                        Description = this.Description,
+                        DebitAccountId = this.DebitAccountId,
+                        DebitAccountName = this.DebitAccountName,
+                        CreditAccountId = this.CreditAccountId,
+                        CreditAccountName = this.CreditAccountName,
+                        Price = this.Price
                     };
 
                     context.AccountJournals.Add(accountJournal);
@@ -150,10 +150,16 @@ namespace TAB20.ViewModels
                 }
                 else
                 {
-                    var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == 308);
+                    var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == this.Id);
                     if (accountJournal != null)
                     {
-                        accountJournal.Description = "ABCDEFGHI";
+                        accountJournal.JournalDate = this.JournalDate;
+                        accountJournal.Description = this.Description;
+                        accountJournal.DebitAccountId = this.DebitAccountId;
+                        accountJournal.DebitAccountName = this.DebitAccountName;
+                        accountJournal.CreditAccountId = this.CreditAccountId;
+                        accountJournal.CreditAccountName = this.CreditAccountName;
+                        accountJournal.Price = this.Price;
 
                         context.SaveChanges();
                     }
