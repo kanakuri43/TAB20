@@ -1,9 +1,12 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Data.SqlClient;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Media.TextFormatting;
 using TAB20.Models;
 
 namespace TAB20.ViewModels
@@ -17,7 +20,7 @@ namespace TAB20.ViewModels
         private string _debitAccountName;
         private int _creditAccountId;
         private string _creditAccountName;
-        private int _price;
+        private decimal _price;
         private int[] _rates = new int[] { 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 };
         private int _rate;
         private int _balanceAccountCode;
@@ -58,7 +61,7 @@ namespace TAB20.ViewModels
             get { return _creditAccountName; }
             set { SetProperty(ref _creditAccountName, value); }
         }
-        public int Price
+        public decimal Price
         {
             get { return _price; }
             set { SetProperty(ref _price, value); }
@@ -89,6 +92,7 @@ namespace TAB20.ViewModels
             InitializeScreen();
 
             RegisterCommand = new DelegateCommand(RegisterCommandExecute);
+            JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
 
             using (var context = new AppDbContext())
             {
@@ -98,6 +102,7 @@ namespace TAB20.ViewModels
         }
 
         public DelegateCommand RegisterCommand { get; }
+        public DelegateCommand<TextBox> JournalSearchCommand { get; }
 
         private void InitializeScreen()
         {
@@ -111,25 +116,71 @@ namespace TAB20.ViewModels
 
         }
 
+        private void JournalSearchCommandExecute(TextBox slipNoTextBox)
+        {
+            if (slipNoTextBox.Text == "")
+            {
+
+            }
+            else
+            {
+                ReadJournal(int.Parse(slipNoTextBox.Text));
+            }
+        }
+
         private void RegisterCommandExecute()
         {
             using (var context = new AppDbContext())
             {
-                var accountJournal = new AccountJournal 
-                { 
-                    JournalDate = new DateTime(2023,12,31), 
-                    Description = "ABC",
-                    DebitAccountId = 123,
-                    DebitAccountName = "XXXX",
-                    CreditAccountId = 456,
-                    CreditAccountName = "YYYY",
-                    Price = 12345M 
-                };
-                context.AccountJournals.Add(accountJournal);
-                context.SaveChanges();
+                if(this.Id == 0)
+                {
+                    var accountJournal = new AccountJournal
+                    {
+                        JournalDate = new DateTime(2023, 12, 31),
+                        Description = "ABC",
+                        DebitAccountId = 123,
+                        DebitAccountName = "XXXX",
+                        CreditAccountId = 456,
+                        CreditAccountName = "YYYY",
+                        Price = 12345M
+                    };
+
+                    context.AccountJournals.Add(accountJournal);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == 308);
+                    if (accountJournal != null)
+                    {
+                        accountJournal.Description = "ABCDEFGHI";
+
+                        context.SaveChanges();
+                    }
+                }
             }
 
         }
 
+        private void ReadJournal(int AccountJournalId)
+        {
+
+            using (var context = new AppDbContext())
+            {
+                var j = context.AccountJournals.Find(AccountJournalId); 
+                if (j != null)
+                {
+                    this.Id = j.Id;
+                    this.JournalDate = j.JournalDate;
+                    this.Description = j.Description;
+                    this.DebitAccountId = j.DebitAccountId;
+                    this.DebitAccountName = j.DebitAccountName;
+                    this.CreditAccountId = j.CreditAccountId;
+                    this.CreditAccountName = j.CreditAccountName;
+                    this.Price = j.Price;
+
+                }
+            }
+        }
     }
 }
