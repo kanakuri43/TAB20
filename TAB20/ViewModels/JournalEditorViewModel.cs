@@ -27,6 +27,7 @@ namespace TAB20.ViewModels
         private int[] _years = new int[10];
         private int _selectedYear;
         private ObservableCollection<AccountJournal> _accountJournals;
+        private int _selectedId;
 
         public int Id
         {
@@ -93,6 +94,11 @@ namespace TAB20.ViewModels
             get { return _accountJournals; }
             set { SetProperty(ref _accountJournals, value); }
         }
+        public int SelectedId
+        {
+            get { return _selectedId; }
+            set { SetProperty(ref _selectedId, value); }
+        }
 
         public JournalEditorViewModel()
         {
@@ -149,7 +155,7 @@ namespace TAB20.ViewModels
 
         private void AccountJournalsTableDoubleClickExecute()
         {
-            ReadJournal(111);
+            ReadJournal(this.SelectedId);
 
         }
         private void DeleteCommandExecute()
