@@ -18,8 +18,6 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0"
                         Orientation="Horizontal">
-                <TextBlock Width="30" 
-                           Text="年"/>
                 <ComboBox Width="80"
                           ItemsSource="{Binding Years}"
                           SelectedValue="{Binding SelectedYear}"
@@ -32,6 +30,7 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ComboBox>
+
             </StackPanel>
             <DataGrid Grid.Row="1"
                       AutoGenerateColumns="False"
@@ -99,6 +98,9 @@
         <Grid Grid.Column="2" 
            Background="White">
             <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
@@ -214,11 +216,10 @@
                        SelectedValue="{Binding BalanceAccountCode}"/>
             </StackPanel>
             <StackPanel Grid.Row="11"
-                 Margin="0,0,0,2"
-                 Orientation="Horizontal"
-                 HorizontalAlignment="Left">
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Left">
                 <Button Width="80"                    
-                 Command="{Binding RegisterCommand}">
+                        Command="{Binding RegisterCommand}">
                     <Rectangle Width="24" Height="24">
                         <Rectangle.Fill>
                             <DrawingBrush>
@@ -238,9 +239,9 @@
                 </Button>
 
                 <Button IsCancel="True"
-                 Width="80"
-                 VerticalContentAlignment="Center"
-                 Command="{Binding DeleteCommand}">
+                        Width="80"
+                        VerticalContentAlignment="Center"
+                        Command="{Binding DeleteCommand}">
                     <Rectangle Width="24" Height="24">
                         <Rectangle.Fill>
                             <DrawingBrush>
@@ -257,17 +258,19 @@
                             </DrawingBrush>
                         </Rectangle.Fill>
                     </Rectangle>
-
-
                 </Button>
+                
                 <Button Content="Cancel" 
-                 IsCancel="True"
-                 Width="80"
-                 Command="{Binding CancelCommand}"/>
+                         IsCancel="True"
+                         Width="80"
+                         Command="{Binding CancelCommand}"/>
+                
             </StackPanel>
-            <TextBlock Grid.Row="9"
-                Margin="0,0,0,2"
-                Text="{Binding ResultMessage}"/>
+            <Button Grid.Row="12" 
+                    HorizontalAlignment="Left"
+                    Width="240"
+                    Content="Financial Statements"
+                    Command="{Binding FinancialStatementsCommand}"/>
 
         </Grid>
     </Grid>

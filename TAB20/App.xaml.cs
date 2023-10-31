@@ -17,6 +17,7 @@ namespace TAB20
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<JournalEditor>();
+            containerRegistry.RegisterForNavigation<FinancialStatements>();
         }
     }
 }

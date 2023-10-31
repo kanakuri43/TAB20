@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="TAB20.Views.FinancialStatements"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <TextBlock Text="Financial Statements"/>
+            <ComboBox Width="80"
+                      Margin="20,0,0,0"
+                            ItemsSource="{Binding Years}"
+                            SelectedValue="{Binding SelectedYear}"
+                            SelectedIndex="0">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding YearSelectionChanged}" 
+                            TriggerParameterPath="AddedItems"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+            </ComboBox>
+
+
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0"
+                        Orientation="Vertical">
+                <TextBlock Text="BalanceShtte"/>
+                <DataGrid AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding BalanceSheet}" >
+
+                </DataGrid>
+
+            </StackPanel>
+
+            <StackPanel Grid.Column="1"
+                        Orientation="Vertical">
+                <TextBlock Text="Profit Loss"/>
+                <DataGrid AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          ItemsSource="{Binding BalanceSheet}" >
+
+                </DataGrid>
+
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Row="2">
+            <Button Content="Back"
+                    Command="{Binding BackCommand}"/>
+        </Grid>
+    </Grid>
+</UserControl>

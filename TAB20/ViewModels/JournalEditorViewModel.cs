@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,11 +10,14 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media.TextFormatting;
 using TAB20.Models;
+using TAB20.Views;
 
 namespace TAB20.ViewModels
 {
     public class JournalEditorViewModel : BindableBase
     {
+        private readonly IRegionManager _regionManager;
+
         private int _id ;
         private DateTime _journalDate;
         private string _description;
@@ -24,7 +28,7 @@ namespace TAB20.ViewModels
         private int _rate;
         private int _balanceAccountCode;
         private ObservableCollection<Account> _accounts;
-        private int[] _years = new int[10];
+        private int[] _years = new int[7];
         private int _selectedYear;
         private ObservableCollection<AccountJournal> _accountJournals;
         private int _selectedId;
@@ -100,8 +104,10 @@ namespace TAB20.ViewModels
             set { SetProperty(ref _selectedId, value); }
         }
 
-        public JournalEditorViewModel()
+        public JournalEditorViewModel(IRegionManager regionManager)
         {
+            _regionManager = regionManager;
+
             InitializeScreen();
 
             RegisterCommand = new DelegateCommand(RegisterCommandExecute);
@@ -109,12 +115,13 @@ namespace TAB20.ViewModels
             JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
             YearSelectionChanged = new DelegateCommand<object[]>(YearSelectionChangedExecute);
             AccountJournalsTableDoubleClick = new DelegateCommand(AccountJournalsTableDoubleClickExecute);
+            FinancialStatementsCommand = new DelegateCommand(FinancialStatementsCommandExecute);
 
             using (var context = new AppDbContext())
             {
                 Accounts = new ObservableCollection<Account>(context.Accounts.ToList());
             }
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 7; i++)
             {
                 this.Years[i] = (DateTime.Now.Year) - i;
             }
@@ -128,6 +135,7 @@ namespace TAB20.ViewModels
         public DelegateCommand<TextBox> JournalSearchCommand { get; }
         public DelegateCommand<object[]> YearSelectionChanged { get; }
         public DelegateCommand AccountJournalsTableDoubleClick { get; }
+        public DelegateCommand FinancialStatementsCommand { get; }
 
         private void InitializeScreen()
         {
@@ -158,6 +166,14 @@ namespace TAB20.ViewModels
             ReadJournal(this.SelectedId);
 
         }
+
+        private void FinancialStatementsCommandExecute()
+        {
+            var p = new NavigationParameters();
+            _regionManager.RequestNavigate("ContentRegion", nameof(FinancialStatements), p);
+
+        }
+
         private void DeleteCommandExecute()
         {
             using (var context = new AppDbContext())
