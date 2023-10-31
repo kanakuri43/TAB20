@@ -25,6 +25,9 @@ namespace TAB20.ViewModels
         private int _rate;
         private int _balanceAccountCode;
         private ObservableCollection<Account> _accounts;
+        private int[] _years = new int[10];
+        private int _selectedYear;
+        private ObservableCollection<AccountJournal> _accountJournals;
 
         public int Id
         {
@@ -86,6 +89,21 @@ namespace TAB20.ViewModels
             get { return _accounts; }
             set { SetProperty(ref _accounts, value); }
         }
+        public int[] Years
+        {
+            get { return _years; }
+            set { SetProperty(ref _years, value); }
+        }
+        public int SelectedYear
+        {
+            get { return _selectedYear; }
+            set { SetProperty(ref _selectedYear, value); }
+        }
+        public ObservableCollection<AccountJournal> AccountJournals
+        {
+            get { return _accountJournals; }
+            set { SetProperty(ref _accountJournals, value); }
+        }
 
         public JournalEditorViewModel()
         {
@@ -93,16 +111,21 @@ namespace TAB20.ViewModels
 
             RegisterCommand = new DelegateCommand(RegisterCommandExecute);
             JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
+            YearSelectionChanged = new DelegateCommand<object[]>(YearSelectionChangedExecute);
 
             using (var context = new AppDbContext())
             {
                 Accounts = new ObservableCollection<Account>(context.Accounts.ToList());
-
+            }
+            for (int i = 0; i < 10; i++)
+            {
+                this.Years[i] = (DateTime.Now.Year) - i;
             }
         }
 
         public DelegateCommand RegisterCommand { get; }
         public DelegateCommand<TextBox> JournalSearchCommand { get; }
+        public DelegateCommand<object[]> YearSelectionChanged { get; }
 
         private void InitializeScreen()
         {
@@ -201,6 +224,30 @@ namespace TAB20.ViewModels
 
                 }
             }
+        }
+
+        private void YearSelectionChangedExecute(object[] selectedItems)
+        {
+            try
+            {
+                var selectedItem = selectedItems[0] ;
+                var id = selectedItem;
+                ShowAccountJournalsTable((int)id);
+            }
+            catch
+            {
+
+            }
+        }
+        private void ShowAccountJournalsTable(int id)
+        {
+            using (var context = new AppDbContext())
+            {
+                this.AccountJournals = new ObservableCollection<AccountJournal>(context.AccountJournals
+                                                                                       .Where(p => p.Id == 123)
+                                                                                       .ToList());
+            }
+
         }
     }
 }
