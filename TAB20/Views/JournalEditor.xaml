@@ -52,6 +52,12 @@
                     </DataGridTextColumn>
 
                 </DataGrid.Columns>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <prism:InvokeCommandAction 
+                            Command="{Binding AccountJournalsTableDoubleClick}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </DataGrid>
 
         </Grid>

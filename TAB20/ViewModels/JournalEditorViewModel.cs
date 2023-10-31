@@ -18,9 +18,7 @@ namespace TAB20.ViewModels
         private DateTime _journalDate;
         private string _description;
         private int _debitAccountId;
-        //private string _debitAccountName;
         private int _creditAccountId;
-        //private string _creditAccountName;
         private decimal _price;
         private int[] _rates = new int[] { 100, 90, 80, 70, 60, 50, 40, 30, 20, 10 };
         private int _rate;
@@ -50,21 +48,11 @@ namespace TAB20.ViewModels
             get { return _debitAccountId; }
             set { SetProperty(ref _debitAccountId, value); }
         }
-        //public string DebitAccountName
-        //{
-        //    get { return _debitAccountName; }
-        //    set { SetProperty(ref _debitAccountName, value); }
-        //}
         public int CreditAccountId
         {
             get { return _creditAccountId; }
             set { SetProperty(ref _creditAccountId, value); }
         }
-        //public string CreditAccountName
-        //{
-        //    get { return _creditAccountName; }
-        //    set { SetProperty(ref _creditAccountName, value); }
-        //}
         public decimal Price
         {
             get { return _price; }
@@ -114,6 +102,7 @@ namespace TAB20.ViewModels
             DeleteCommand = new DelegateCommand(DeleteCommandExecute);
             JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
             YearSelectionChanged = new DelegateCommand<object[]>(YearSelectionChangedExecute);
+            AccountJournalsTableDoubleClick = new DelegateCommand(AccountJournalsTableDoubleClickExecute);
 
             using (var context = new AppDbContext())
             {
@@ -132,16 +121,17 @@ namespace TAB20.ViewModels
         public DelegateCommand DeleteCommand { get; }
         public DelegateCommand<TextBox> JournalSearchCommand { get; }
         public DelegateCommand<object[]> YearSelectionChanged { get; }
+        public DelegateCommand AccountJournalsTableDoubleClick { get; }
 
         private void InitializeScreen()
         {
-            Id = 0;
-            JournalDate = DateTime.Today;
-            Description = "";
-            DebitAccountId = 0;
-            CreditAccountId = 0;
-            Price = 0;
-            Rate = 0;
+            this.Id = 0;
+            this.JournalDate = DateTime.Today;
+            this.Description = "";
+            this.DebitAccountId = 0;
+            this.CreditAccountId = 0;
+            this.Price = 0;
+            this.Rate = 0;
 
         }
 
@@ -157,6 +147,11 @@ namespace TAB20.ViewModels
             }
         }
 
+        private void AccountJournalsTableDoubleClickExecute()
+        {
+            ReadJournal(111);
+
+        }
         private void DeleteCommandExecute()
         {
             using (var context = new AppDbContext())
@@ -231,8 +226,6 @@ namespace TAB20.ViewModels
             }
             InitializeScreen();
             ShowAccountJournalsTable(this.SelectedYear);
-
-
         }
 
         private void ReadJournal(int AccountJournalId)
@@ -247,9 +240,7 @@ namespace TAB20.ViewModels
                     this.JournalDate = j.JournalDate;
                     this.Description = j.Description;
                     this.DebitAccountId = j.DebitAccountId;
-                    //this.DebitAccountName = j.DebitAccountName;
                     this.CreditAccountId = j.CreditAccountId;
-                    //this.CreditAccountName = j.CreditAccountName;
                     this.Price = j.Price;
 
                 }
