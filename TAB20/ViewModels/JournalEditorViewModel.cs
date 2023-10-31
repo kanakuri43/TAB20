@@ -145,15 +145,15 @@ namespace TAB20.ViewModels
 
         }
 
-        private void JournalSearchCommandExecute(TextBox slipNoTextBox)
+        private void JournalSearchCommandExecute(TextBox IdTextBox)
         {
-            if (slipNoTextBox.Text == "")
+            if (IdTextBox.Text == "")
             {
 
             }
             else
             {
-                ReadJournal(int.Parse(slipNoTextBox.Text));
+                ReadJournal(int.Parse(IdTextBox.Text));
             }
         }
 
@@ -168,6 +168,9 @@ namespace TAB20.ViewModels
                     context.SaveChanges();
                 }
             }
+            InitializeScreen();
+            ShowAccountJournalsTable(this.SelectedYear);
+
         }
 
         private void RegisterCommandExecute()
