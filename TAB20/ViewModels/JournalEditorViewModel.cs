@@ -231,20 +231,20 @@ namespace TAB20.ViewModels
             try
             {
                 var selectedItem = selectedItems[0] ;
-                var id = selectedItem;
-                ShowAccountJournalsTable((int)id);
+                var year = selectedItem;
+                ShowAccountJournalsTable((int)year);
             }
             catch
             {
 
             }
         }
-        private void ShowAccountJournalsTable(int id)
+        private void ShowAccountJournalsTable(int year)
         {
             using (var context = new AppDbContext())
             {
                 this.AccountJournals = new ObservableCollection<AccountJournal>(context.AccountJournals
-                                                                                       .Where(p => p.Id == 123)
+                                                                                       .Where(j => j.JournalDate.Year == year)
                                                                                        .ToList());
             }
 

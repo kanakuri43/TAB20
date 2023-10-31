@@ -33,7 +33,7 @@
                 </ComboBox>
             </StackPanel>
             <DataGrid Grid.Row="1"
-                      ItemsSource="{Binding JournalAccounts}" >
+                      ItemsSource="{Binding AccountJournals}" >
 
             </DataGrid>
 
