@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media.TextFormatting;
@@ -110,6 +111,7 @@ namespace TAB20.ViewModels
             InitializeScreen();
 
             RegisterCommand = new DelegateCommand(RegisterCommandExecute);
+            DeleteCommand = new DelegateCommand(DeleteCommandExecute);
             JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
             YearSelectionChanged = new DelegateCommand<object[]>(YearSelectionChangedExecute);
 
@@ -121,9 +123,13 @@ namespace TAB20.ViewModels
             {
                 this.Years[i] = (DateTime.Now.Year) - i;
             }
+
+            this.SelectedYear = DateTime.Now.Year;
+            ShowAccountJournalsTable(this.SelectedYear);
         }
 
         public DelegateCommand RegisterCommand { get; }
+        public DelegateCommand DeleteCommand { get; }
         public DelegateCommand<TextBox> JournalSearchCommand { get; }
         public DelegateCommand<object[]> YearSelectionChanged { get; }
 
@@ -151,8 +157,26 @@ namespace TAB20.ViewModels
             }
         }
 
+        private void DeleteCommandExecute()
+        {
+            using (var context = new AppDbContext())
+            {
+                var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == this.Id);
+                if (accountJournal != null)
+                {
+                    context.AccountJournals.Remove(accountJournal);
+                    context.SaveChanges();
+                }
+            }
+        }
+
         private void RegisterCommandExecute()
         {
+            if(this.DebitAccountId == 0 || this.CreditAccountId == 0 || this.Price == 0)
+            {
+                return;
+            }
+
             using (var context = new AppDbContext())
             {
                 string debitAccountName = "";
@@ -202,6 +226,9 @@ namespace TAB20.ViewModels
                     }
                 }
             }
+            InitializeScreen();
+            ShowAccountJournalsTable(this.SelectedYear);
+
 
         }
 

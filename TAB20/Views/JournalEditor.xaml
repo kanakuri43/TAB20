@@ -33,8 +33,25 @@
                 </ComboBox>
             </StackPanel>
             <DataGrid Grid.Row="1"
+                      AutoGenerateColumns="False"
+                      IsReadOnly="True"
                       ItemsSource="{Binding AccountJournals}" >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" />
+                    <DataGridTextColumn Header="Date" Binding="{Binding JournalDate, StringFormat={}{0:yyyy/MM/dd}}" />
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="Debit" Binding="{Binding DebitAccountName}" />
+                    <DataGridTextColumn Header="Credit" Binding="{Binding CreditAccountName}" />
+                    <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:#,0}}" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextAlignment" Value="Right" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
 
+                    </DataGridTextColumn>
+
+                </DataGrid.Columns>
             </DataGrid>
 
         </Grid>
