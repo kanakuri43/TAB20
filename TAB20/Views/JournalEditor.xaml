@@ -199,6 +199,7 @@
                         Width="100"/>
                 <ComboBox Width="120"
                        SelectedIndex="0"
+                       IsEnabled="{Binding DivideEnable}"
                        ItemsSource="{Binding Rates}" 
                        SelectedValue="{Binding Rate}"/>
             </StackPanel>
@@ -209,6 +210,7 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
+                       IsEnabled="{Binding DivideEnable}"
                        SelectedValuePath="Id"
                        DisplayMemberPath="AccountName"
                        ItemsSource="{Binding Accounts}" 
@@ -266,6 +268,7 @@
                 
             </StackPanel>
             <Button Grid.Row="12" 
+                    IsEnabled="False"
                     HorizontalAlignment="Left"
                     Width="240"
                     Content="Financial Statements"

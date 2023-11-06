@@ -32,6 +32,7 @@ namespace TAB20.ViewModels
         private int _selectedYear;
         private ObservableCollection<AccountJournal> _accountJournals;
         private int _selectedId;
+        private bool _divideEnable;
 
         public int Id
         {
@@ -103,6 +104,11 @@ namespace TAB20.ViewModels
             get { return _selectedId; }
             set { SetProperty(ref _selectedId, value); }
         }
+        public bool DivideEnable
+        {
+            get { return _divideEnable; }
+            set { SetProperty(ref _divideEnable, value); }
+        }
 
         public JournalEditorViewModel(IRegionManager regionManager)
         {
@@ -112,6 +118,7 @@ namespace TAB20.ViewModels
 
             RegisterCommand = new DelegateCommand(RegisterCommandExecute);
             DeleteCommand = new DelegateCommand(DeleteCommandExecute);
+            CancelCommand = new DelegateCommand(CancelCommandExecute);
             JournalSearchCommand = new DelegateCommand<TextBox>(JournalSearchCommandExecute);
             YearSelectionChanged = new DelegateCommand<object[]>(YearSelectionChangedExecute);
             AccountJournalsTableDoubleClick = new DelegateCommand(AccountJournalsTableDoubleClickExecute);
@@ -128,10 +135,12 @@ namespace TAB20.ViewModels
 
             this.SelectedYear = DateTime.Now.Year;
             ShowAccountJournalsTable(this.SelectedYear);
+
         }
 
         public DelegateCommand RegisterCommand { get; }
         public DelegateCommand DeleteCommand { get; }
+        public DelegateCommand CancelCommand { get; }
         public DelegateCommand<TextBox> JournalSearchCommand { get; }
         public DelegateCommand<object[]> YearSelectionChanged { get; }
         public DelegateCommand AccountJournalsTableDoubleClick { get; }
@@ -146,6 +155,7 @@ namespace TAB20.ViewModels
             this.CreditAccountId = 0;
             this.Price = 0;
             this.Rate = 0;
+            this.DivideEnable = true;
 
         }
 
@@ -188,6 +198,11 @@ namespace TAB20.ViewModels
             InitializeScreen();
             ShowAccountJournalsTable(this.SelectedYear);
 
+        }
+
+        private void CancelCommandExecute()
+        {
+            InitializeScreen();
         }
 
         private void RegisterCommandExecute()
@@ -276,6 +291,7 @@ namespace TAB20.ViewModels
                 this.CreditAccountId = j.CreditAccountId;
                 this.Price = j.Price;
 
+                this.DivideEnable = false;
             }
         }
 
