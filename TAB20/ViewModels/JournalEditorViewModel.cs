@@ -253,19 +253,17 @@ namespace TAB20.ViewModels
         private void ReadJournal(int AccountJournalId)
         {
 
-            using (var context = new AppDbContext())
+            using var context = new AppDbContext();
+            var j = context.AccountJournals.Find(AccountJournalId);
+            if (j != null)
             {
-                var j = context.AccountJournals.Find(AccountJournalId); 
-                if (j != null)
-                {
-                    this.Id = j.Id;
-                    this.JournalDate = j.JournalDate;
-                    this.Description = j.Description;
-                    this.DebitAccountId = j.DebitAccountId;
-                    this.CreditAccountId = j.CreditAccountId;
-                    this.Price = j.Price;
+                this.Id = j.Id;
+                this.JournalDate = j.JournalDate;
+                this.Description = j.Description;
+                this.DebitAccountId = j.DebitAccountId;
+                this.CreditAccountId = j.CreditAccountId;
+                this.Price = j.Price;
 
-                }
             }
         }
 
@@ -284,12 +282,10 @@ namespace TAB20.ViewModels
         }
         private void ShowAccountJournalsTable(int year)
         {
-            using (var context = new AppDbContext())
-            {
-                this.AccountJournals = new ObservableCollection<AccountJournal>(context.AccountJournals
-                                                                                       .Where(j => j.JournalDate.Year == year)
-                                                                                       .ToList());
-            }
+            using var context = new AppDbContext();
+            this.AccountJournals = new ObservableCollection<AccountJournal>(context.AccountJournals
+                                                                                   .Where(j => j.JournalDate.Year == year)
+                                                                                   .ToList());
 
         }
     }

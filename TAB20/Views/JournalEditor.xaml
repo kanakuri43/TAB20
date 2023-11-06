@@ -14,7 +14,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0"
                         Orientation="Horizontal">
@@ -32,7 +31,7 @@
                 </ComboBox>
 
             </StackPanel>
-            <DataGrid Grid.Row="1"
+            <!--<DataGrid Grid.Row="1"
                       AutoGenerateColumns="False"
                       IsReadOnly="True"
                       ItemsSource="{Binding AccountJournals}" >
@@ -58,8 +57,8 @@
                             Command="{Binding AccountJournalsTableDoubleClick}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
-            </DataGrid>
-            <ListView  Grid.Row="2"
+            </DataGrid>-->
+            <ListView  Grid.Row="1"
                      SelectedValuePath="Id"
                      ItemsSource="{Binding AccountJournals}" 
                      SelectedValue="{Binding SelectedId}" >
