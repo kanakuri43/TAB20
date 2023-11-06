@@ -154,7 +154,7 @@ namespace TAB20.ViewModels
             this.DebitAccountId = 0;
             this.CreditAccountId = 0;
             this.Price = 0;
-            this.Rate = 0;
+            this.Rate = 100;
             this.DivideEnable = true;
 
         }
@@ -246,7 +246,7 @@ namespace TAB20.ViewModels
                             DebitAccountName = divideBalanceAccount.AccountName,
                             CreditAccountId = this.CreditAccountId,
                             CreditAccountName = debitAccount.AccountName,
-                            Price = this.Price - (this.Price * (decimal)(Rate / 100.0))
+                            Price = this.Price - Math.Ceiling((this.Price * (decimal)(Rate / 100.0)))
                         };
                         context.AccountJournals.Add(accountJournalDivide);
                         context.SaveChanges();
