@@ -199,37 +199,49 @@ namespace TAB20.ViewModels
 
             using (var context = new AppDbContext())
             {
-                string debitAccountName = "";
-                string creditAccountName = "";
-                var dn = context.Accounts.Find(this.DebitAccountId);
-                if (dn != null)
-                {
-                    debitAccountName = dn.AccountName;
-                }
-                var cn = context.Accounts.Find(this.CreditAccountId);
-                if (cn != null)
-                {
-                    creditAccountName = cn.AccountName;
-                }
+                var debitAccount = context.Accounts.Find(this.DebitAccountId);
+                var creditAccount = context.Accounts.Find(this.CreditAccountId);
 
                 if (this.Id == 0)
                 {
+                    // Create
                     var accountJournal = new AccountJournal
                     {
                         JournalDate = this.JournalDate,
                         Description = this.Description,
                         DebitAccountId = this.DebitAccountId,
-                        DebitAccountName = debitAccountName,
+                        DebitAccountName = debitAccount.AccountName,
                         CreditAccountId = this.CreditAccountId,
-                        CreditAccountName = creditAccountName,
+                        CreditAccountName = creditAccount.AccountName,
                         Price = this.Price
                     };
-
                     context.AccountJournals.Add(accountJournal);
                     context.SaveChanges();
+
+                    // 案分するとき
+                    if (Rate != 100)
+                    {
+                        var divideBalanceAccount = context.Accounts.Find(this.BalanceAccountCode);
+
+                        var accountJournalDivide = new AccountJournal
+                        {
+                            JournalDate = this.JournalDate,
+                            Description = this.Description + "（案分）",
+                            DebitAccountId = this.DebitAccountId,
+                            DebitAccountName = divideBalanceAccount.AccountName,
+                            CreditAccountId = this.CreditAccountId,
+                            CreditAccountName = debitAccount.AccountName,
+                            Price = this.Price - (this.Price * (decimal)(Rate / 100.0))
+                        };
+                        context.AccountJournals.Add(accountJournalDivide);
+                        context.SaveChanges();
+
+                    }
+
                 }
                 else
                 {
+                    // Update
                     var accountJournal = context.AccountJournals.FirstOrDefault(p => p.Id == this.Id);
                     if (accountJournal != null)
                     {
@@ -237,9 +249,9 @@ namespace TAB20.ViewModels
                         accountJournal.JournalDate = this.JournalDate;
                         accountJournal.Description = this.Description;
                         accountJournal.DebitAccountId = this.DebitAccountId;
-                        accountJournal.DebitAccountName = debitAccountName;
+                        accountJournal.DebitAccountName = debitAccount.AccountName;
                         accountJournal.CreditAccountId = this.CreditAccountId;
-                        accountJournal.CreditAccountName = creditAccountName;
+                        accountJournal.CreditAccountName = creditAccount.AccountName;
                         accountJournal.Price = this.Price;
 
                         context.SaveChanges();
