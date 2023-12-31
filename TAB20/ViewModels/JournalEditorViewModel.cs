@@ -313,6 +313,7 @@ namespace TAB20.ViewModels
             using var context = new AppDbContext();
             this.AccountJournals = new ObservableCollection<AccountJournal>(context.AccountJournals
                                                                                    .Where(j => j.JournalDate.Year == year)
+                                                                                   .OrderBy(j => j.JournalDate) 
                                                                                    .ToList());
 
         }
