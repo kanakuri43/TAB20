@@ -242,9 +242,9 @@ namespace TAB20.ViewModels
                         {
                             JournalDate = this.JournalDate,
                             Description = this.Description + "（案分）",
-                            DebitAccountId = this.DebitAccountId,
+                            DebitAccountId = this.BalanceAccountCode,
                             DebitAccountName = divideBalanceAccount.AccountName,
-                            CreditAccountId = this.CreditAccountId,
+                            CreditAccountId = this.DebitAccountId,
                             CreditAccountName = debitAccount.AccountName,
                             Price = this.Price - Math.Ceiling((this.Price * (decimal)(Rate / 100.0)))
                         };
