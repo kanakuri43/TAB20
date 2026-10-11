@@ -94,7 +94,8 @@
             </ListView>
 
         </Grid>
-        <Grid Grid.Column="2" 
+        <Grid Grid.Column="2"
+           PreviewKeyDown="EditGrid_PreviewKeyDown"
            Background="White">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -165,9 +166,10 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
+                   GotKeyboardFocus="Combo_GotKeyboardFocus"
                    SelectedValuePath="Id"
                    DisplayMemberPath="AccountName"
-                   ItemsSource="{Binding Accounts}" 
+                   ItemsSource="{Binding Accounts}"
                    SelectedValue="{Binding DebitAccountId}"/>
             </StackPanel>
             <StackPanel Grid.Row="5"
@@ -177,9 +179,10 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <ComboBox Width="120"
+                   GotKeyboardFocus="Combo_GotKeyboardFocus"
                    SelectedValuePath="Id"
                    DisplayMemberPath="AccountName"
-                   ItemsSource="{Binding Accounts}" 
+                   ItemsSource="{Binding Accounts}"
                    SelectedValue="{Binding CreditAccountId}"/>
             </StackPanel>
             <StackPanel Grid.Row="6"
@@ -189,6 +192,11 @@
                         VerticalAlignment="Center"
                         Width="100"/>
                 <TextBox Text="{Binding Price, StringFormat={}{0:N0}}"
+                  InputMethod.IsInputMethodEnabled="False"
+                  PreviewTextInput="Price_PreviewTextInput"
+                  DataObject.Pasting="Price_Pasting"
+                  GotKeyboardFocus="Price_GotKeyboardFocus"
+                  PreviewMouseLeftButtonDown="Price_PreviewMouseLeftButtonDown"
                   Width="120"/>
             </StackPanel>
             <StackPanel Grid.Row="7"
